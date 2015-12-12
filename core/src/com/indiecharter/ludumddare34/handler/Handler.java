@@ -13,22 +13,32 @@ public class Handler {
 	LinkedList<Entity> debufferedEntities = new LinkedList<Entity>();
 	
 	public void update(float delta){
+		
 		for(Entity e: bufferedEntitiesU){
 			entitiesU.add(e);
 		}
 		
 		for(Entity e: debufferedEntities){
+			e.dipose();
 			entitiesU.remove(e);
 			entitiesR.remove(e);
 		}
 		
 		for(Entity e: entitiesU){
+			if(e.isTrash) {
+				debufferedEntities.add(e);
+				continue;
+			}
 			if(e.isAwake) e.update(delta);
 		}
 	}
 	
 	public void render(SpriteBatch batch){
 		for(Entity e: bufferedEntities){
+			if(e.isTrash) {
+				debufferedEntities.add(e);
+				continue;
+			}
 			entitiesR.add(e);
 		}
 		
@@ -46,5 +56,9 @@ public class Handler {
 	
 	public void removeEntity(Entity e){
 		debufferedEntities.add(e);
+	}
+	
+	public LinkedList<Entity> getEntities(){
+		return this.entitiesR;
 	}
 }

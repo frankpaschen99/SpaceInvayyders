@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class FallingHeart extends Entity{
+public class FallingObject extends Entity{
 	
-	public FallingHeart(float x, float y, Texture texture){
+	public FallingObject(float x, float y, Texture texture){
 		this.x = x;
 		this.y = y;
 		

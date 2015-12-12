@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.CoreGame;
-import com.indiecharter.ludumddare34.entities.FallingHeart;
+import com.indiecharter.ludumddare34.entities.FallingObject;
 import com.indiecharter.ludumddare34.entities.Player;
 import com.indiecharter.ludumddare34.handler.Handler;
 
@@ -54,7 +54,7 @@ public class GameScreen implements Screen{
 	long lastTime = System.currentTimeMillis();
 	public void update(float delta){
 		if(lastTime + 1000 < System.currentTimeMillis()){
-			FOHandler.addEntity(new FallingHeart(random.nextInt(700) + 50, 600, heart));
+			FOHandler.addEntity(new FallingObject(random.nextInt(700) + 50, 600, heart));
 			System.out.println("Summoned Object");
 			lastTime = System.currentTimeMillis();
 		}

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,6 +15,7 @@ import com.indiecharter.ludumddare34.entities.Bullet;
 import com.indiecharter.ludumddare34.entities.FallingObject;
 import com.indiecharter.ludumddare34.entities.Player;
 import com.indiecharter.ludumddare34.handler.Handler;
+import com.indiecharter.ludumddare34.text.Text;
 
 public class GameScreen implements Screen{
 	SpriteBatch batch;
@@ -27,10 +29,16 @@ public class GameScreen implements Screen{
 	Handler PowerUpHandler;
 	Handler playerBullets;
 	
+	Text text;
+	
 	Background background;
 	
 	Texture heart;
 	public GameScreen(CoreGame game){
+		text = new Text("fonts/font.fnt");
+		text.setFontSize(0.32f);
+		text.setColor(Color.GREEN);
+		
 		heart = new Texture("gui_heart_full.png");
 		batch = new SpriteBatch();
 		this.game = game;
@@ -65,8 +73,7 @@ public class GameScreen implements Screen{
 		playerBullets.render(batch);
 		PowerUpHandler.render(batch);
 		playerHandler.render(batch);
-		
-		
+		text.draw("Ayy lmao", batch, 300 - text.getStringLength("Ayy lmao"), 400);
 		batch.end();
 	}
 	

@@ -42,13 +42,13 @@ public class Enemy extends Entity{
 			if(this.x < 0){
 				this.direction = Directions.right;
 			}else{
-				x -= 50 * delta;
+				x -= 100 * delta;
 			}
 		}else{
 			if(this.x > Gdx.graphics.getWidth() - sprite.getWidth()){
 				this.direction = Directions.left;
 			}else{
-				x += 50 * delta;
+				x += 100 * delta;
 			}
 		}
 		

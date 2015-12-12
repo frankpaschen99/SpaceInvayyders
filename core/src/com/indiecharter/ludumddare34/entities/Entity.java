@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.ID;
 
 public abstract class Entity {
+
+	public boolean shoot = false;
 	
 	public ID id;
 	

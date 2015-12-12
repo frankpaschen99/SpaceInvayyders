@@ -14,7 +14,7 @@ public class FallingObject extends Entity{
 		sprite = new Sprite(texture);
 		sprite.setPosition(x, y);
 		sprite.setOrigin(0, 0);
-		sprite.setSize(sprite.getWidth() * 2, sprite.getHeight() * 2);
+		sprite.setSize(sprite.getWidth() * .75f, sprite.getHeight() * 0.75f);
 	}
 	
 	@Override

@@ -4,23 +4,29 @@ import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
+import com.indiecharter.ludumddare34.ID;
+import com.indiecharter.ludumddare34.gui.ProgressBar;
 import com.indiecharter.ludumddare34.handler.Handler;
-import com.indiecharter.ludumddare34.utilities.Constants;
 
 public class Player extends Entity{
 	
 	boolean isFlipped = false;
 	LinkedList<Handler> Collisions = new LinkedList<Handler>();
 	
+	public float HP = 100;
+	
 	public int score;
+	
+	ProgressBar pb;
 	
 	float originalSpriteWidth, originalSpriteHeight;
 	
 	public Player(float x, float y){
+		this.id = ID.player;
 		this.x = x;
 		this.y = y;
 		Texture playerTexture = new Texture("space_ship.png");
@@ -30,14 +36,18 @@ public class Player extends Entity{
 		originalSpriteWidth = sprite.getWidth();
 		originalSpriteHeight = sprite.getHeight();
 		sprite.setSize(sprite.getWidth(), sprite.getHeight());
+		pb = new ProgressBar(false, HP, HP, this.x + this.sprite.getWidth()/2 - 50, this.y + 12 + this.sprite.getHeight());
+		pb.setColor(Color.GREEN);
 	}
 	
-	public boolean shoot = false;
 	
 	int lastWarp = 0;
 	
 	@Override
 	public void update(float delta) {
+		pb.value = this.HP;
+		
+		pb.setPosition(this.x + this.sprite.getWidth()/2 - pb.sprite.getWidth()/2, this.y + pb.sprite.getHeight() + 2 + this.sprite.getHeight());
 		sprite.setSize(originalSpriteWidth + (score * 2 * originalSpriteWidth / 100), originalSpriteHeight + (score * 2 * originalSpriteHeight / 100));
 		sprite.setPosition(x, y);
 		float speed = 500 * delta;
@@ -70,13 +80,16 @@ public class Player extends Entity{
 			shoot = true;
 		}
 		
+		if(this.HP <= 0){
+			Gdx.app.exit();
+		}
 		
 	}
 	
 	@Override
 	public void render(SpriteBatch batch) {
 		sprite.draw(batch);
-		
+		pb.render(batch);
 	}
 	
 
@@ -87,7 +100,10 @@ public class Player extends Entity{
 
 	@Override
 	public void collidedWith(Entity e) {
-		// TODO Auto-generated method stub
+		if(e.id == ID.bullet){
+			System.out.println("HPP: " + this.HP);
+			this.HP -= e.attackDamage;
+		}
 		
 	}
 }

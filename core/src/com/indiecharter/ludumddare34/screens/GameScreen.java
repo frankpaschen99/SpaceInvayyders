@@ -10,9 +10,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.CoreGame;
+import com.indiecharter.ludumddare34.ID;
 import com.indiecharter.ludumddare34.entities.Background;
 import com.indiecharter.ludumddare34.entities.Bullet;
 import com.indiecharter.ludumddare34.entities.Enemy;
+import com.indiecharter.ludumddare34.entities.Entity;
 import com.indiecharter.ludumddare34.entities.FallingObject;
 import com.indiecharter.ludumddare34.entities.Player;
 import com.indiecharter.ludumddare34.gui.ProgressBar;
@@ -31,6 +33,7 @@ public class GameScreen implements Screen{
 	Handler PowerUpHandler;
 	Handler playerBullets;
 	
+	Handler enemysBullets;
 	Handler enemies;
 	
 	Text text;
@@ -45,9 +48,11 @@ public class GameScreen implements Screen{
 		text.setFontSize(0.32f);
 		text.setColor(Color.GREEN);
 		
+		enemysBullets = new Handler();
+		
 		pb = new ProgressBar(false, 10, 2, 200, 200);
 		
-		heart = new Texture("gui_heart_full.png");
+		heart = new Texture("asteroid.png");
 		batch = new SpriteBatch();
 		this.game = game;
 		System.out.println("Moved to gamescreen");
@@ -55,7 +60,7 @@ public class GameScreen implements Screen{
 		playerBullets = new Handler();
 		
 		enemies = new Handler();
-		Sprite sprite = new Sprite(new Texture("space_disk.png"));
+		Sprite sprite = new Sprite(new Texture("ayylmao.png"));
 		sprite.setSize(64, 64);
 		enemies.addEntity(new Enemy(10, 300, 300, sprite));
 		
@@ -83,11 +88,11 @@ public class GameScreen implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		background.render(batch);
+		PowerUpHandler.render(batch);
+		enemysBullets.render(batch);
 		playerBullets.render(batch);
 		enemies.render(batch);
-		PowerUpHandler.render(batch);
 		playerHandler.render(batch);
-		pb.render(batch);
 		text.draw("Ayy lmao", batch, 300 - text.getStringLength("Ayy lmao")/2, 400);
 		batch.end();
 	}
@@ -100,6 +105,15 @@ public class GameScreen implements Screen{
 			lastTime = System.currentTimeMillis();
 			
 			System.out.println(Gdx.graphics.getFramesPerSecond());
+			Sprite sprite;
+			if(random.nextInt(2) == 1){
+				sprite = new Sprite(new Texture("ayylmao.png"));
+			}else{
+				sprite = new Sprite(new Texture("UFO.png"));
+					
+			}
+			sprite.setSize(32 + random.nextInt(62), 32 + random.nextInt(62));
+			enemies.addEntity(new Enemy((float)(random.nextInt(30)), random.nextInt(400) + 100, random.nextInt(500) + 200, sprite));
 			
 		}
 		
@@ -112,13 +126,26 @@ public class GameScreen implements Screen{
 			player.shoot = false;
 		}
 		
+		for(Entity e: enemies.getEntities()){
+			if(e.id == ID.enemy && e.shoot){
+				e.shoot = false;
+
+				Sprite bullet = new Sprite(new Texture("dankmeme.png"));
+				bullet.setSize(bullet.getWidth() / 2, bullet.getHeight() /2);
+				Bullet ayy = new Bullet(e.x + (e.sprite.getWidth() / 2) - (bullet.getWidth() / 2), e.y + e.sprite.getHeight(), 7, 600, bullet );
+				ayy.setInvert(true);
+				enemysBullets.addEntity(ayy);
+			}
+		}
+		
 		pb.update();
 		playerBullets.update(delta);
 		PowerUpHandler.update(delta);
 		playerHandler.update(delta);
 		enemies.update(delta);
+		enemysBullets.update(delta);
 		
-		
+		enemysBullets.checkCollision(playerHandler);
 		
 		playerBullets.checkCollision(enemies);
 		

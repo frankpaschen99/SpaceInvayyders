@@ -1,5 +1,7 @@
 package com.indiecharter.ludumddare34.entities;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +19,8 @@ public class Enemy extends Entity{
 	
 	ProgressBar pb;
 	
+	Random random;
+	
 	public Enemy(float HP, float x, float y, Sprite sprite){
 		this.HP = HP;
 		this.x = x;
@@ -25,10 +29,15 @@ public class Enemy extends Entity{
 		direction = Directions.left;
 		this.id = ID.enemy;
 		pb = new ProgressBar(false, HP, HP, this.x + this.sprite.getWidth()/2 - (100 /2), this.y );
+		random = new Random();
 	}
-	
 	@Override
 	public void update(float delta) {
+		
+		if(random.nextInt(100) == 25){
+			shoot = true;
+		}
+		
 		if(this.direction == Directions.left){
 			if(this.x < 0){
 				this.direction = Directions.right;

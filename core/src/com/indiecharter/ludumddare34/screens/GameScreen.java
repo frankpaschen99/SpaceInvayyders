@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,6 +37,8 @@ public class GameScreen implements Screen{
 	Handler enemysBullets;
 	Handler enemies;
 	
+	Sound andHisNameIsJohnCena;
+	
 	Text text;
 	
 	ProgressBar pb;
@@ -49,6 +52,8 @@ public class GameScreen implements Screen{
 		text.setColor(Color.GREEN);
 		
 		enemysBullets = new Handler();
+		
+		andHisNameIsJohnCena = Gdx.audio.newSound(Gdx.files.internal("andHisNameIsJohnCena.mp3"));
 		
 		pb = new ProgressBar(false, 10, 2, 200, 200);
 		
@@ -97,7 +102,12 @@ public class GameScreen implements Screen{
 		batch.end();
 	}
 	
+	int johnCenaTimes = 1000;
+	long lastCenaShot = 0;
 	long lastTime = System.currentTimeMillis();
+	
+	long johnCenaWaitTime;
+	
 	public void update(float delta){
 		if(lastTime + 1000 < System.currentTimeMillis()){
 			PowerUpHandler.addEntity(new FallingObject(random.nextInt(Gdx.graphics.getWidth()- 200) + 100, Gdx.graphics.getHeight(), heart));
@@ -112,8 +122,35 @@ public class GameScreen implements Screen{
 				sprite = new Sprite(new Texture("UFO.png"));
 					
 			}
+			sprite.setColor(random.nextFloat(), random.nextFloat(), random.nextFloat(), 1);
 			sprite.setSize(32 + random.nextInt(62), 32 + random.nextInt(62));
 			enemies.addEntity(new Enemy((float)(random.nextInt(30)), random.nextInt(400) + 100, random.nextInt(500) + 200, sprite));
+			
+		}
+		
+		if((player.specialJohnCena || johnCenaTimes < 32 )){
+			if(player.specialJohnCena){
+				johnCenaTimes = 0;
+				andHisNameIsJohnCena.play(0.35f);
+				System.out.println("JOHNN CENAA");
+				johnCenaWaitTime = System.currentTimeMillis();
+				player.specialJohnCena = false;
+			}
+			
+			
+			if(johnCenaWaitTime + 2100 < System.currentTimeMillis()){
+			
+
+			if(this.lastCenaShot + 500 < System.currentTimeMillis()){
+			this.lastCenaShot = System.currentTimeMillis();
+			this.johnCenaTimes++;
+			Sprite bullet = new Sprite(new Texture("lazer.png"));
+			bullet.setSize(bullet.getWidth() / 2, bullet.getHeight() /2);
+			for(int i = 0; i < Gdx.graphics.getWidth() / bullet.getWidth(); i++){
+				playerBullets.addEntity(new Bullet( i * bullet.getWidth(), 0 , 2, 600, bullet ));
+			}}
+			
+			}
 			
 		}
 		

@@ -31,10 +31,15 @@ public class Enemy extends Entity{
 		pb = new ProgressBar(false, HP, HP, this.x + this.sprite.getWidth()/2 - (100 /2), this.y );
 		random = new Random();
 	}
+	
+	public void setColor(float color){
+		sprite.setColor(color);
+	}
+	
 	@Override
 	public void update(float delta) {
 		
-		if(random.nextInt(100) == 25){
+		if(random.nextInt(150) == 25){
 			shoot = true;
 		}
 		

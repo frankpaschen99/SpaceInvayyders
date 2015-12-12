@@ -43,6 +43,8 @@ public class Player extends Entity{
 	
 	int lastWarp = 0;
 	
+	public boolean specialJohnCena = false;
+	public long specialTimer;
 	@Override
 	public void update(float delta) {
 		pb.value = this.HP;
@@ -56,7 +58,11 @@ public class Player extends Entity{
 			if(Gdx.input.isKeyJustPressed(Keys.SPACE) && lastWarp + 1000 < System.currentTimeMillis()){
 				//x -= speed * 20;
 			}else{
+				if(x < -sprite.getWidth()/2){
+					
+				}else{
 				x -= speed;
+				}
 				if(!isFlipped){
 					sprite.setFlip(true, false);
 					this.isFlipped = true;
@@ -64,11 +70,16 @@ public class Player extends Entity{
 			}
 			
 		}
+		
 		if(Gdx.input.isKeyPressed(Keys.D)){
 			if(Gdx.input.isKeyJustPressed(Keys.SPACE)  && lastWarp + 1000 < System.currentTimeMillis()){
 				//x += speed * 20;
 			}else{
+				if(x > Gdx.graphics.getWidth() - sprite.getWidth()/2){
+					
+				}else{
 				x += speed;
+				}
 				if(isFlipped){
 					sprite.setFlip(false, false);
 					this.isFlipped = false;
@@ -76,6 +87,10 @@ public class Player extends Entity{
 			}
 		}
 		
+		if(Gdx.input.isKeyJustPressed(Keys.J) && this.specialTimer + 10000 < System.currentTimeMillis()){
+			this.specialJohnCena = true;
+			this.specialTimer = System.currentTimeMillis();
+		}
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
 			shoot = true;
 		}

@@ -1,12 +1,14 @@
 package com.indiecharter.ludumddare34.entities;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.ID;
 
 public class Bullet extends Entity{
-	
+	Random random;
 	float speed;
 	
 	boolean invert;
@@ -18,7 +20,7 @@ public class Bullet extends Entity{
 		this.y = y;
 		this.attackDamage = hitDamage;
 		this.speed = speed;
-		
+		random = new Random();
 		this.id = ID.bullet;
 	}
 	
@@ -40,6 +42,7 @@ public class Bullet extends Entity{
 			}
 		}
 		sprite.setPosition(x, y);
+		sprite.setColor(random.nextFloat(), random.nextFloat(), random.nextFloat(), 0.9f);
 	}
 
 	@Override

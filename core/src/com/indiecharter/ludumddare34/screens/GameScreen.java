@@ -15,6 +15,7 @@ import com.indiecharter.ludumddare34.entities.Bullet;
 import com.indiecharter.ludumddare34.entities.Enemy;
 import com.indiecharter.ludumddare34.entities.FallingObject;
 import com.indiecharter.ludumddare34.entities.Player;
+import com.indiecharter.ludumddare34.gui.ProgressBar;
 import com.indiecharter.ludumddare34.handler.Handler;
 import com.indiecharter.ludumddare34.text.Text;
 
@@ -34,6 +35,8 @@ public class GameScreen implements Screen{
 	
 	Text text;
 	
+	ProgressBar pb;
+	
 	Background background;
 	
 	Texture heart;
@@ -41,6 +44,8 @@ public class GameScreen implements Screen{
 		text = new Text("fonts/font.fnt");
 		text.setFontSize(0.32f);
 		text.setColor(Color.GREEN);
+		
+		pb = new ProgressBar(false, 10, 2, 200, 200);
 		
 		heart = new Texture("gui_heart_full.png");
 		batch = new SpriteBatch();
@@ -82,6 +87,7 @@ public class GameScreen implements Screen{
 		enemies.render(batch);
 		PowerUpHandler.render(batch);
 		playerHandler.render(batch);
+		pb.render(batch);
 		text.draw("Ayy lmao", batch, 300 - text.getStringLength("Ayy lmao")/2, 400);
 		batch.end();
 	}
@@ -106,10 +112,13 @@ public class GameScreen implements Screen{
 			player.shoot = false;
 		}
 		
+		pb.update();
 		playerBullets.update(delta);
 		PowerUpHandler.update(delta);
 		playerHandler.update(delta);
 		enemies.update(delta);
+		
+		
 		
 		playerBullets.checkCollision(enemies);
 		

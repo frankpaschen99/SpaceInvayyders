@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.Directions;
 import com.indiecharter.ludumddare34.ID;
+import com.indiecharter.ludumddare34.gui.ProgressBar;
 
 public class Enemy extends Entity{
 	
@@ -14,6 +15,8 @@ public class Enemy extends Entity{
 	
 	float speed = 200;
 	
+	ProgressBar pb;
+	
 	public Enemy(float HP, float x, float y, Sprite sprite){
 		this.HP = HP;
 		this.x = x;
@@ -21,6 +24,7 @@ public class Enemy extends Entity{
 		this.sprite = sprite;
 		direction = Directions.left;
 		this.id = ID.enemy;
+		pb = new ProgressBar(false, HP, HP, this.x + this.sprite.getWidth()/2 - (100 /2), this.y );
 	}
 	
 	@Override
@@ -38,7 +42,10 @@ public class Enemy extends Entity{
 				x += 50 * delta;
 			}
 		}
+		
 		sprite.setPosition(x, y);  
+		
+		pb.setPosition(this.x + this.sprite.getWidth()/2 - (pb.sprite.getWidth() /2), this.y - pb.sprite.getHeight() - 2);
 		
 		if(this.HP <= 0){
 			this.isTrash = true;
@@ -48,6 +55,7 @@ public class Enemy extends Entity{
 	@Override
 	public void render(SpriteBatch batch) {
 		sprite.draw(batch);
+		pb.render(batch);
 	}
 
 	@Override
@@ -59,6 +67,7 @@ public class Enemy extends Entity{
 	public void collidedWith(Entity e) {
 		if(e.id == ID.bullet){
 			HP -= e.attackDamage;
+			pb.value = HP;
 		}
 	}
 

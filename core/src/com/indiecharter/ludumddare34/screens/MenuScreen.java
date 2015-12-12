@@ -14,6 +14,8 @@ public class MenuScreen implements Screen{
 	public MenuScreen(CoreGame game){
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		
+		System.out.println("Menu");
 	}
 	
 	@Override

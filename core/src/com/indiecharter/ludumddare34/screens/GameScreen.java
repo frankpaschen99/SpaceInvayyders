@@ -131,8 +131,8 @@ public class GameScreen implements Screen{
 				e.shoot = false;
 
 				Sprite bullet = new Sprite(new Texture("dankmeme.png"));
-				bullet.setSize(bullet.getWidth() / 2, bullet.getHeight() /2);
-				Bullet ayy = new Bullet(e.x + (e.sprite.getWidth() / 2) - (bullet.getWidth() / 2), e.y + e.sprite.getHeight(), 7, 600, bullet );
+				bullet.setSize(bullet.getWidth(), bullet.getHeight());
+				Bullet ayy = new Bullet(e.x + (e.sprite.getWidth() / 2) - (bullet.getWidth() / 2), e.y + e.sprite.getHeight(), 7, 400, bullet );
 				ayy.setInvert(true);
 				enemysBullets.addEntity(ayy);
 			}

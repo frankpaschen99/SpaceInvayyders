@@ -1,5 +1,6 @@
 package com.indiecharter.ludumddare34.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,7 +9,7 @@ public class Background extends Entity{
 	Texture backgroundTexture;
 	
 	public Background(){
-		backgroundTexture = new Texture("Space_Background.png");
+		backgroundTexture = new Texture(Gdx.files.internal("textures/space_background.jpg"));
 		sprite = new Sprite(backgroundTexture);
 		
 	}

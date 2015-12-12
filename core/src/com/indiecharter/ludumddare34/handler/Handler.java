@@ -2,6 +2,7 @@ package com.indiecharter.ludumddare34.handler;
 
 import java.util.LinkedList;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.entities.Entity;
 
 public class Handler {
@@ -26,13 +27,13 @@ public class Handler {
 		}
 	}
 	
-	public void render(){
+	public void render(SpriteBatch batch){
 		for(Entity e: bufferedEntities){
 			entitiesR.add(e);
 		}
 		
 		for(Entity e: entitiesR){
-			e.render();
+			e.render(batch);
 		}
 	}
 	

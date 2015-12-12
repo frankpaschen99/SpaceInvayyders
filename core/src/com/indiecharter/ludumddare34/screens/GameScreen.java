@@ -73,7 +73,7 @@ public class GameScreen implements Screen{
 		playerBullets.render(batch);
 		PowerUpHandler.render(batch);
 		playerHandler.render(batch);
-		text.draw("Ayy lmao", batch, 300 - text.getStringLength("Ayy lmao"), 400);
+		text.draw("Ayy lmao", batch, 300 - text.getStringLength("Ayy lmao")/2, 400);
 		batch.end();
 	}
 	

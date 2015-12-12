@@ -5,7 +5,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.ID;
 
 public class Enemy extends Entity{
-	float HP;
+	
+	float HP;	
+	
+	
+	
 	public Enemy(float HP, float x, float y, Sprite sprite){
 		this.HP = HP;
 		this.x = x;
@@ -20,7 +24,7 @@ public class Enemy extends Entity{
 
 	@Override
 	public void render(SpriteBatch batch) {
-		
+		sprite.draw(batch);
 	}
 
 	@Override

@@ -8,10 +8,11 @@ public class CoreGame extends Game {
 	@Override
 	public void create () {
 		System.out.println("LOADING");
-		this.setScreen(new LoadingScreen(this));
+		setScreen(new LoadingScreen(this));
 	}
 
 	@Override
 	public void render () {
+		super.render();
 	}
 }

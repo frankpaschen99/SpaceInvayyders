@@ -3,6 +3,7 @@ package com.indiecharter.ludumddare34.handler;
 import java.util.LinkedList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.indiecharter.ludumddare34.entities.Entity;
 
 public class Handler {
@@ -71,6 +72,16 @@ public class Handler {
 			System.out.println(e.y + y);
 			e.x += x;
 			e.y += y;
+		}
+	}
+	
+	public void checkCollision(Handler handler){
+		for(Entity e: this.entitiesR){
+			for(Entity n: this.entitiesU){
+				Rectangle eRect = new Rectangle(e.x, e.y, e.sprite.getWidth(), e.sprite.getHeight());
+				Rectangle nRect = new Rectangle(n.x, n.y, n.sprite.getWidth(), n.sprite.getHeight());
+				eRect.overlaps(nRect);
+			}
 		}
 	}
 }

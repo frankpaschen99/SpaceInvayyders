@@ -39,4 +39,10 @@ public class FallingObject extends Entity{
 		
 	}
 
+	@Override
+	public void collidedWith(Entity e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

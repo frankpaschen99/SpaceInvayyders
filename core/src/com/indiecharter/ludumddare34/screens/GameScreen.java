@@ -65,6 +65,8 @@ public class GameScreen implements Screen{
 		playerBullets.render(batch);
 		PowerUpHandler.render(batch);
 		playerHandler.render(batch);
+		
+		
 		batch.end();
 	}
 	

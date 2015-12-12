@@ -23,6 +23,8 @@ public class Handler {
 			entitiesU.remove(e);
 			entitiesR.remove(e);
 		}
+		bufferedEntitiesU.clear();
+		debufferedEntities.clear();
 		
 		for(Entity e: entitiesU){
 			if(e.isTrash) {
@@ -35,14 +37,16 @@ public class Handler {
 	
 	public void render(SpriteBatch batch){
 		for(Entity e: bufferedEntities){
+			entitiesR.add(e);
+		}
+		
+		bufferedEntities.clear();
+		
+		for(Entity e: entitiesR){
 			if(e.isTrash) {
 				debufferedEntities.add(e);
 				continue;
 			}
-			entitiesR.add(e);
-		}
-		
-		for(Entity e: entitiesR){
 			e.render(batch);
 		}
 	}

@@ -19,7 +19,7 @@ public class FallingHeart extends Entity{
 	@Override
 	public void update(float delta) {
 		sprite.setPosition(x, y);
-		float speed = delta * 5;
+		float speed = delta * 250;
 		this.y -= speed;
 		System.out.println("Yo");
 		if(this.y < 0 - sprite.getHeight()){

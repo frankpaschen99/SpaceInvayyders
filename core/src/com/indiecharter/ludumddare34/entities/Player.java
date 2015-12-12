@@ -31,22 +31,34 @@ public class Player extends Entity{
 		Collisions.add(handler);
 	}
 	
+	int lastWarp = 0;
+	
 	@Override
 	public void update(float delta) {
 		sprite.setPosition(x, y);
 		float speed = 500 * delta;
 		if(Gdx.input.isKeyPressed(Keys.A)){
-			x -= speed;
-			if(!isFlipped){
-				sprite.setFlip(true, false);
-				this.isFlipped = true;
+
+			if(Gdx.input.isKeyJustPressed(Keys.SPACE) && lastWarp + 1000 < System.currentTimeMillis()){
+				x -= speed * 20;
+			}else{
+				x -= speed;
+				if(!isFlipped){
+					sprite.setFlip(true, false);
+					this.isFlipped = true;
+				}
 			}
+			
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)){
-			x += speed;
-			if(isFlipped){
-				sprite.setFlip(false, false);
-				this.isFlipped = false;
+			if(Gdx.input.isKeyJustPressed(Keys.SPACE)  && lastWarp + 1000 < System.currentTimeMillis()){
+				x += speed * 20;
+			}else{
+				x += speed;
+				if(isFlipped){
+					sprite.setFlip(false, false);
+					this.isFlipped = false;
+				}
 			}
 		}
 		

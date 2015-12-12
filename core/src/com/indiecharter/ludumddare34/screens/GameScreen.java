@@ -31,7 +31,6 @@ public class GameScreen implements Screen{
 		player = new Player(100, 2);
 		FOHandler = new Handler();
 		random = new Random();
-		FOHandler.addEntity(new FallingHeart(400, 600, heart));
 		player.addCollisionsGroup(FOHandler);
 	}
 	
@@ -56,11 +55,12 @@ public class GameScreen implements Screen{
 	public void update(float delta){
 		if(lastTime + 1000 < System.currentTimeMillis()){
 			FOHandler.addEntity(new FallingHeart(random.nextInt(700) + 50, 600, heart));
+			System.out.println("Summoned Object");
 			lastTime = System.currentTimeMillis();
 		}
 		FOHandler.update(delta);
 		player.update(delta);
-		System.out.println(Gdx.graphics.getFramesPerSecond());
+		System.out.println(Gdx.graphics.getFramesPerSecond() + " " + FOHandler.getEntities().size());
 	}
 
 	@Override

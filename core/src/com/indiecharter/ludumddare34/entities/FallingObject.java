@@ -22,7 +22,6 @@ public class FallingObject extends Entity{
 		sprite.setPosition(x, y);
 		float speed = delta * Constants.climbSpeed;
 		this.y -= speed;
-		System.out.println("Yo");
 		if(this.y < 0 - sprite.getHeight()){
 			System.out.println("TOUCHED GROUND");
 			this.isTrash = true;

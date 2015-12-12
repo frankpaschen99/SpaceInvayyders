@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.CoreGame;
 import com.indiecharter.ludumddare34.entities.Background;
 import com.indiecharter.ludumddare34.entities.Bullet;
+import com.indiecharter.ludumddare34.entities.Enemy;
 import com.indiecharter.ludumddare34.entities.FallingObject;
 import com.indiecharter.ludumddare34.entities.Player;
 import com.indiecharter.ludumddare34.handler.Handler;
@@ -29,6 +30,8 @@ public class GameScreen implements Screen{
 	Handler PowerUpHandler;
 	Handler playerBullets;
 	
+	Handler enemies;
+	
 	Text text;
 	
 	Background background;
@@ -45,6 +48,11 @@ public class GameScreen implements Screen{
 		System.out.println("Moved to gamescreen");
 		
 		playerBullets = new Handler();
+		
+		enemies = new Handler();
+		Sprite sprite = new Sprite(new Texture("space_disk.png"));
+		sprite.setSize(64, 64);
+		enemies.addEntity(new Enemy(10, 300, 300, sprite));
 		
 		player = new Player(100, 2);
 		playerHandler = new Handler();
@@ -71,6 +79,7 @@ public class GameScreen implements Screen{
 		batch.begin();
 		background.render(batch);
 		playerBullets.render(batch);
+		enemies.render(batch);
 		PowerUpHandler.render(batch);
 		playerHandler.render(batch);
 		text.draw("Ayy lmao", batch, 300 - text.getStringLength("Ayy lmao")/2, 400);
@@ -81,20 +90,29 @@ public class GameScreen implements Screen{
 	public void update(float delta){
 		if(lastTime + 1000 < System.currentTimeMillis()){
 			PowerUpHandler.addEntity(new FallingObject(random.nextInt(Gdx.graphics.getWidth()- 200) + 100, Gdx.graphics.getHeight(), heart));
-			Sprite bullet = new Sprite(new Texture("lazer.png"));
-			bullet.setSize(bullet.getWidth() / 2, bullet.getHeight() /2);
-			playerBullets.addEntity(new Bullet(player.x + (player.sprite.getWidth() / 2) - (bullet.getWidth() / 2), player.y + player.sprite.getHeight(), 2, 600, bullet ));
 			System.out.println("Summoned Object");
 			lastTime = System.currentTimeMillis();
 			
+			System.out.println(Gdx.graphics.getFramesPerSecond());
 			
+		}
+		
+		if(player.shoot){
+
+			Sprite bullet = new Sprite(new Texture("lazer.png"));
+			bullet.setSize(bullet.getWidth() / 2, bullet.getHeight() /2);
+			playerBullets.addEntity(new Bullet(player.x + (player.sprite.getWidth() / 2) - (bullet.getWidth() / 2), player.y + player.sprite.getHeight(), 2, 600, bullet ));
+			
+			player.shoot = false;
 		}
 		
 		playerBullets.update(delta);
 		PowerUpHandler.update(delta);
 		playerHandler.update(delta);
+		enemies.update(delta);
 		
-		System.out.println(Gdx.graphics.getFramesPerSecond() + " " + PowerUpHandler.getEntities().size());
+		playerBullets.checkCollision(enemies);
+		
 	}
 	
 	

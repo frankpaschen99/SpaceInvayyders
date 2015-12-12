@@ -15,6 +15,8 @@ public class Bullet extends Entity{
 		this.y = y;
 		this.attackDamage = hitDamage;
 		this.speed = speed;
+		
+		this.id = ID.bullet;
 	}
 	
 	@Override

@@ -32,6 +32,7 @@ public class Player extends Entity{
 		sprite.setSize(sprite.getWidth(), sprite.getHeight());
 	}
 	
+	public boolean shoot = false;
 	
 	int lastWarp = 0;
 	
@@ -43,7 +44,7 @@ public class Player extends Entity{
 		if(Gdx.input.isKeyPressed(Keys.A)){
 
 			if(Gdx.input.isKeyJustPressed(Keys.SPACE) && lastWarp + 1000 < System.currentTimeMillis()){
-				x -= speed * 20;
+				//x -= speed * 20;
 			}else{
 				x -= speed;
 				if(!isFlipped){
@@ -55,7 +56,7 @@ public class Player extends Entity{
 		}
 		if(Gdx.input.isKeyPressed(Keys.D)){
 			if(Gdx.input.isKeyJustPressed(Keys.SPACE)  && lastWarp + 1000 < System.currentTimeMillis()){
-				x += speed * 20;
+				//x += speed * 20;
 			}else{
 				x += speed;
 				if(isFlipped){
@@ -64,6 +65,11 @@ public class Player extends Entity{
 				}
 			}
 		}
+		
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+			shoot = true;
+		}
+		
 		
 	}
 	

@@ -77,10 +77,13 @@ public class Handler {
 	
 	public void checkCollision(Handler handler){
 		for(Entity e: this.entitiesR){
-			for(Entity n: this.entitiesU){
+			for(Entity n: handler.entitiesR){
 				Rectangle eRect = new Rectangle(e.x, e.y, e.sprite.getWidth(), e.sprite.getHeight());
 				Rectangle nRect = new Rectangle(n.x, n.y, n.sprite.getWidth(), n.sprite.getHeight());
-				eRect.overlaps(nRect);
+				if(eRect.overlaps(nRect)){
+					e.collidedWith(n);
+					n.collidedWith(e);
+				}
 			}
 		}
 	}

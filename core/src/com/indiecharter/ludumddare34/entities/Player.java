@@ -17,6 +17,8 @@ public class Player extends Entity{
 	
 	public int score;
 	
+	float originalSpriteWidth, originalSpriteHeight;
+	
 	public Player(float x, float y){
 		this.x = x;
 		this.y = y;
@@ -24,6 +26,8 @@ public class Player extends Entity{
 		sprite = new Sprite(playerTexture);
 		sprite.setPosition(x, y);
 		sprite.setOrigin(0, 0);
+		originalSpriteWidth = sprite.getWidth();
+		originalSpriteHeight = sprite.getHeight();
 		sprite.setSize(sprite.getWidth() * 2, sprite.getHeight() * 2);
 	}
 	
@@ -35,6 +39,7 @@ public class Player extends Entity{
 	
 	@Override
 	public void update(float delta) {
+		sprite.setSize(originalSpriteWidth * 2 + (score * 2 * originalSpriteWidth / 100), originalSpriteHeight * 2 + (score * 2 * originalSpriteHeight / 100));
 		sprite.setPosition(x, y);
 		float speed = 500 * delta;
 		if(Gdx.input.isKeyPressed(Keys.A)){

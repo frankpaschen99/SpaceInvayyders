@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.indiecharter.ludumddare34.handler.Handler;
+import com.indiecharter.ludumddare34.utilities.Constants;
 
 public class Player extends Entity{
 	
@@ -83,7 +84,6 @@ public class Player extends Entity{
 				eRect.set(e.x, e.y, e.sprite.getWidth(), e.sprite.getHeight());
 
 				System.out.println("Score: " + score);
-				
 				if(playerRect.overlaps(eRect)){
 					e.isTrash = true;
 					score++;

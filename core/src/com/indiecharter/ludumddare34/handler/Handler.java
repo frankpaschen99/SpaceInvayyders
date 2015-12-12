@@ -65,4 +65,12 @@ public class Handler {
 	public LinkedList<Entity> getEntities(){
 		return this.entitiesR;
 	}
+	
+	public void translate(float x, float y){
+		for(Entity e: entitiesU){
+			System.out.println(e.y + y);
+			e.x += x;
+			e.y += y;
+		}
+	}
 }

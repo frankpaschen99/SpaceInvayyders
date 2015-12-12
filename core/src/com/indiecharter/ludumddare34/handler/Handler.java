@@ -12,7 +12,7 @@ public class Handler {
 	LinkedList<Entity> bufferedEntitiesU = new LinkedList<Entity>();
 	LinkedList<Entity> debufferedEntities = new LinkedList<Entity>();
 	
-	public void update(){
+	public void update(float delta){
 		for(Entity e: bufferedEntitiesU){
 			entitiesU.add(e);
 		}
@@ -23,7 +23,7 @@ public class Handler {
 		}
 		
 		for(Entity e: entitiesU){
-			if(e.isAwake) e.update();;
+			if(e.isAwake) e.update(delta);
 		}
 	}
 	

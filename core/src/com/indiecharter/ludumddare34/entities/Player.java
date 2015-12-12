@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Player extends Entity{
 	Sprite player;
-	public Player(int x, int y){
+	public Player(float x, float y){
 		this.x = x;
 		this.y = y;
 		Texture playerTexture = new Texture("sprite_hero.png");
@@ -18,11 +18,12 @@ public class Player extends Entity{
 	}
 	
 	@Override
-	public void update() {
+	public void update(float delta) {
 		player.setPosition(x, y);
-		
-		if(Gdx.input.isKeyPressed(Keys.A)) x--;
-		if(Gdx.input.isKeyPressed(Keys.D)) x++;
+		float speed = 500 * delta;
+		System.out.println(speed);
+		if(Gdx.input.isKeyPressed(Keys.A)) x -= speed;
+		if(Gdx.input.isKeyPressed(Keys.D)) x += speed;
 	}
 
 	@Override

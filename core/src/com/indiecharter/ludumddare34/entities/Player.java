@@ -49,9 +49,9 @@ public class Player extends Entity {
 		
 		missileLevel = 0;
 		
-		missileLevel1 = new Sprite(new Texture("upgrades/missilesLevel1"));
-		missileLevel2 = new Sprite(new Texture("upgrades/missilesLevel2"));
-		missileLevel3 = new Sprite(new Texture("upgrades/missilesLevel3"));
+		missileLevel1 = new Sprite(new Texture("upgrades/missilesLevel1.png"));
+		missileLevel2 = new Sprite(new Texture("upgrades/missilesLevel2.png"));
+		missileLevel3 = new Sprite(new Texture("upgrades/missilesLevel3.png"));
 
 		currentUpgrades = new LinkedList<PlayerUpgrades>();
 	}

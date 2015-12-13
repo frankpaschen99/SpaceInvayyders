@@ -3,17 +3,19 @@ package com.indiecharter.ludumddare34.entities;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.ID;
+import com.indiecharter.ludumddare34.screens.GameScreen;
 
 public class Bullet extends Entity{
 	Random random;
 	float speed;
 	
 	boolean invert;
-	
-	public Bullet(float x, float y, float hitDamage, float speed, Sprite sprite){
+	boolean playSound;
+	public Bullet(float x, float y, float hitDamage, float speed, Sprite sprite, boolean hitSound){
 		this.sprite = sprite;
 		sprite.setPosition(x, y);
 		this.x = x;
@@ -22,6 +24,7 @@ public class Bullet extends Entity{
 		this.speed = speed;
 		random = new Random();
 		this.id = ID.bullet;
+		this.playSound = hitSound;
 	}
 	
 	public void setInvert(boolean invert){
@@ -57,8 +60,13 @@ public class Bullet extends Entity{
 
 	@Override
 	public void collidedWith(Entity e) {
-		if(e.id == ID.enemy || e.id == ID.player)
+		if(e.id == ID.enemy || e.id == ID.player){
 			this.isTrash = true;
+			if(playSound){
+			Sound hitmarker = Gdx.audio.newSound(Gdx.files.internal("HITMARKER.wav"));
+			hitmarker.play(0.5f);
+			}
+		}
 	}
 
 }

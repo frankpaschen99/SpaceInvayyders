@@ -3,11 +3,13 @@ package com.indiecharter.ludumddare34.entities;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.Directions;
 import com.indiecharter.ludumddare34.ID;
 import com.indiecharter.ludumddare34.gui.ProgressBar;
+import com.indiecharter.ludumddare34.utilities.Constants;
 
 public class Enemy extends Entity{
 	
@@ -62,6 +64,9 @@ public class Enemy extends Entity{
 		pb.setPosition(this.x + this.sprite.getWidth()/2 - (pb.sprite.getWidth() /2), this.y - pb.sprite.getHeight() - 2);
 		
 		if(this.HP <= 0){
+			Sound sound = Gdx.audio.newSound(Gdx.files.internal("Explosion.wav"));
+			sound.play(0.24f);
+			Constants.scores++;
 			this.isTrash = true;
 		}
 	}

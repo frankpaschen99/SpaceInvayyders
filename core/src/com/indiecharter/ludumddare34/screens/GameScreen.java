@@ -21,6 +21,7 @@ import com.indiecharter.ludumddare34.entities.Player;
 import com.indiecharter.ludumddare34.gui.ProgressBar;
 import com.indiecharter.ludumddare34.handler.Handler;
 import com.indiecharter.ludumddare34.text.Text;
+import com.indiecharter.ludumddare34.utilities.Constants;
 
 public class GameScreen implements Screen{
 	SpriteBatch batch;
@@ -46,10 +47,14 @@ public class GameScreen implements Screen{
 	Background background;
 	
 	Texture heart;
+	
+	String centerOfScreenText;
+	
 	public GameScreen(CoreGame game){
 		text = new Text("fonts/font.fnt");
 		text.setFontSize(0.32f);
 		text.setColor(Color.GREEN);
+		
 		
 		enemysBullets = new Handler();
 		
@@ -78,6 +83,7 @@ public class GameScreen implements Screen{
 		random = new Random();
 		
 		background = new Background();
+		centerOfScreenText = "Ayy Lmaos: ";
 	}
 	
 	
@@ -98,17 +104,37 @@ public class GameScreen implements Screen{
 		playerBullets.render(batch);
 		enemies.render(batch);
 		playerHandler.render(batch);
-		text.draw("Ayy lmao", batch, 300 - text.getStringLength("Ayy lmao")/2, 400);
+		text.draw(centerOfScreenText + Constants.scores, batch, 300 - text.getStringLength(centerOfScreenText + Constants.scores)/2, 400);
 		batch.end();
 	}
 	
 	int johnCenaTimes = 1000;
 	long lastCenaShot = 0;
 	long lastTime = System.currentTimeMillis();
+	long firstDed = 0;
+	
+	boolean playedSadSong = false;
 	
 	long johnCenaWaitTime;
 	
+	Sound song = Gdx.audio.newSound(Gdx.files.internal("Sad Violin.mp3"));
 	public void update(float delta){
+		
+		if(player.ded){
+			if(playedSadSong == false){
+				song.play(0.4f);
+				playedSadSong = true;
+				firstDed = System.currentTimeMillis();
+				text.setColor(Color.RED);
+				this.centerOfScreenText = "You died, top Ayys: ";
+			}
+			
+			if(firstDed + 436000 < System.currentTimeMillis()){
+				Gdx.app.exit();
+			}
+			return;
+		}
+		
 		if(lastTime + 1000 < System.currentTimeMillis()){
 			PowerUpHandler.addEntity(new FallingObject(random.nextInt(Gdx.graphics.getWidth()- 200) + 100, Gdx.graphics.getHeight(), heart));
 			System.out.println("Summoned Object");
@@ -144,10 +170,12 @@ public class GameScreen implements Screen{
 			if(this.lastCenaShot + 500 < System.currentTimeMillis()){
 			this.lastCenaShot = System.currentTimeMillis();
 			this.johnCenaTimes++;
-			Sprite bullet = new Sprite(new Texture("lazer.png"));
-			bullet.setSize(bullet.getWidth() / 2, bullet.getHeight() /2);
-			for(int i = 0; i < Gdx.graphics.getWidth() / bullet.getWidth(); i++){
-				playerBullets.addEntity(new Bullet( i * bullet.getWidth(), 0 , 2, 600, bullet ));
+			Sprite bulletMesuare = new Sprite(new Texture("lazer.png"));
+			bulletMesuare.setSize(bulletMesuare.getWidth() / 2, bulletMesuare.getHeight() /2);
+			for(int i = 0; i < Gdx.graphics.getWidth() / bulletMesuare.getWidth(); i++){
+				Sprite bullet = new Sprite(new Texture("lazer.png"));
+				bullet.setSize(bullet.getWidth() / 2, bullet.getHeight() /2);
+				playerBullets.addEntity(new Bullet( i * bullet.getWidth(), 0 , 2, 600, bullet, false));
 			}}
 			
 			}
@@ -158,7 +186,7 @@ public class GameScreen implements Screen{
 
 			Sprite bullet = new Sprite(new Texture("lazer.png"));
 			bullet.setSize(bullet.getWidth() / 2, bullet.getHeight() /2);
-			playerBullets.addEntity(new Bullet(player.x + (player.sprite.getWidth() / 2) - (bullet.getWidth() / 2), player.y + player.sprite.getHeight(), 2, 600, bullet ));
+			playerBullets.addEntity(new Bullet(player.x + (player.sprite.getWidth() / 2) - (bullet.getWidth() / 2), player.y + player.sprite.getHeight(), 2, 600, bullet, true));
 			
 			player.shoot = false;
 		}
@@ -169,7 +197,7 @@ public class GameScreen implements Screen{
 
 				Sprite bullet = new Sprite(new Texture("dankmeme.png"));
 				bullet.setSize(bullet.getWidth(), bullet.getHeight());
-				Bullet ayy = new Bullet(e.x + (e.sprite.getWidth() / 2) - (bullet.getWidth() / 2), e.y + e.sprite.getHeight(), 7, 400, bullet );
+				Bullet ayy = new Bullet(e.x + (e.sprite.getWidth() / 2) - (bullet.getWidth() / 2), e.y + e.sprite.getHeight(), 7, 400, bullet, true);
 				ayy.setInvert(true);
 				enemysBullets.addEntity(ayy);
 			}

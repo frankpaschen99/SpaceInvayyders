@@ -45,7 +45,9 @@ public class Player extends Entity{
 	
 	public boolean specialJohnCena = false;
 	public long specialTimer;
+	public boolean ded = false;
 	@Override
+	
 	public void update(float delta) {
 		pb.value = this.HP;
 		
@@ -96,7 +98,7 @@ public class Player extends Entity{
 		}
 		
 		if(this.HP <= 0){
-			Gdx.app.exit();
+			ded = true;
 		}
 		
 	}

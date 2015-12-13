@@ -41,7 +41,7 @@ public class Enemy extends Entity{
 	@Override
 	public void update(float delta) {
 		
-		if(random.nextInt(150) == 25){
+		if(random.nextInt(500) <= Constants.scores){
 			shoot = true;
 		}
 		
@@ -67,6 +67,7 @@ public class Enemy extends Entity{
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("Explosion.wav"));
 			sound.play(0.24f);
 			Constants.scores++;
+			Constants.totalScore++;
 			this.isTrash = true;
 		}
 	}

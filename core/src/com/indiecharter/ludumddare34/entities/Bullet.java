@@ -7,15 +7,15 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indiecharter.ludumddare34.ID;
-import com.indiecharter.ludumddare34.screens.GameScreen;
 
-public class Bullet extends Entity{
+public class Bullet extends Entity {
 	Random random;
 	float speed;
-	
+
 	boolean invert;
 	boolean playSound;
-	public Bullet(float x, float y, float hitDamage, float speed, Sprite sprite, boolean hitSound){
+
+	public Bullet(float x, float y, float hitDamage, float speed, Sprite sprite, boolean hitSound) {
 		this.sprite = sprite;
 		sprite.setPosition(x, y);
 		this.x = x;
@@ -26,21 +26,21 @@ public class Bullet extends Entity{
 		this.id = ID.bullet;
 		this.playSound = hitSound;
 	}
-	
-	public void setInvert(boolean invert){
+
+	public void setInvert(boolean invert) {
 		this.invert = invert;
 	}
-	
+
 	@Override
 	public void update(float delta) {
-		if(this.invert){
+		if (this.invert) {
 			this.y -= speed * delta;
-			if(this.y < 0 - this.sprite.getHeight()){
+			if (this.y < 0 - this.sprite.getHeight()) {
 				this.isTrash = true;
 			}
-		}else{
+		} else {
 			this.y += speed * delta;
-			if(this.y > Gdx.graphics.getHeight()){
+			if (this.y > Gdx.graphics.getHeight()) {
 				this.isTrash = true;
 			}
 		}
@@ -55,16 +55,16 @@ public class Bullet extends Entity{
 
 	@Override
 	public void dipose() {
-		
+
 	}
 
 	@Override
 	public void collidedWith(Entity e) {
-		if(e.id == ID.enemy || e.id == ID.player){
+		if (e.id == ID.enemy || e.id == ID.player) {
 			this.isTrash = true;
-			if(playSound){
-			Sound hitmarker = Gdx.audio.newSound(Gdx.files.internal("HITMARKER.wav"));
-			hitmarker.play(0.5f);
+			if (playSound) {
+				Sound hitmarker = Gdx.audio.newSound(Gdx.files.internal("HITMARKER.wav"));
+				hitmarker.play(0.5f);
 			}
 		}
 	}

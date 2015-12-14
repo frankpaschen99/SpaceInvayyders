@@ -5,12 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Align;
 
 public class Text {
 	GlyphLayout layout;
 	BitmapFont font;
-	Align alight;
 	
 	public Text(String fontFile){
 		font = new BitmapFont(Gdx.files.internal(fontFile));

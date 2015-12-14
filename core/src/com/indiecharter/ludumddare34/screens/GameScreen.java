@@ -79,19 +79,21 @@ public class GameScreen implements Screen {
 		Sprite sprite = new Sprite(new Texture("ayylmao.png"));
 		sprite.setSize(64, 64);
 		enemies.addEntity(new Enemy(10, 300, 300, sprite));
-
+		
 		player = new Player(100, 2);
 		playerHandler = new Handler();
 		playerHandler.addEntity(player);
-
 		PowerUpHandler = new Handler();
-
+		
 		random = new Random();
 
 		background = new Background();
 		centerOfScreenText = "Bitcoins: ";
 
 		backgroundOverlay = new Sprite(new Texture("textures/foreground_blacktint.png"));
+
+		player.x = 100;
+		player.y = 2;
 	}
 
 	@Override
@@ -137,7 +139,7 @@ public class GameScreen implements Screen {
 	boolean paused = false;
 
 	public void update(float delta) {
-
+		
 		if (player.ded) {
 			if (playedSadSong == false) {
 				song.play(0.4f);

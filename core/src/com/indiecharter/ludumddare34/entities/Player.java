@@ -135,7 +135,7 @@ public class Player extends Entity {
 		}
 
 		if (Gdx.input.isKeyJustPressed(Keys.J) && this.specialTimer + 10000 < System.currentTimeMillis()) {
-			this.specialJohnCena = true;
+			//this.specialJohnCena = true;
 			this.specialTimer = System.currentTimeMillis();
 		}
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE) || Gdx.input.isKeyJustPressed(Keys.UP)) {

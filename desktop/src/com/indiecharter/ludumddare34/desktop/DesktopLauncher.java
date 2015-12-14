@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		config.height = 800;
 		config.resizable = false;
 		config.vSyncEnabled = true;
-		config.title = "";
+		config.title = "Space Invayyders";
 		new LwjglApplication(new CoreGame(), config);
 	}
 }

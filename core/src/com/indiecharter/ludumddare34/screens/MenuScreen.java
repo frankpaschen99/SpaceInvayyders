@@ -13,7 +13,7 @@ public class MenuScreen implements Screen{
 	CoreGame game;
 	public MenuScreen(CoreGame game){
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("textures/menu_background.png");
 		this.game = game;
 		System.out.println("Menu");
 	}

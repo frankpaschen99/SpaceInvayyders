@@ -65,8 +65,35 @@ public class Player extends Entity {
 	@Override
 
 	public void update(float delta) {
-		pb.value = this.HP;
 
+		if (currentUpgrades.contains(PlayerUpgrades.MissilesLevel3) || this.missileLevel == 3) {
+			this.missileLevel3.setPosition(x, y);
+			this.missileLevel2.setPosition(x, y);
+			this.missileLevel1.setPosition(x, y);
+			missileLevel = 3;
+			if(!this.currentUpgrades.contains(PlayerUpgrades.MissilesLevel3)){
+				this.currentUpgrades.add(PlayerUpgrades.MissilesLevel3);
+			}
+		} else if (currentUpgrades.contains(PlayerUpgrades.MissilesLevel2) || this.missileLevel == 2) {
+			this.missileLevel2.setPosition(x, y);
+			this.missileLevel1.setPosition(x, y);
+			missileLevel = 2;
+			if(!this.currentUpgrades.contains(PlayerUpgrades.MissilesLevel2)){
+				this.currentUpgrades.add(PlayerUpgrades.MissilesLevel2);
+			}
+		} else if (currentUpgrades.contains(PlayerUpgrades.MissilesLevel1) || this.missileLevel == 1) {
+			this.missileLevel1.setPosition(x, y);
+			missileLevel = 1;
+			if(!this.currentUpgrades.contains(PlayerUpgrades.MissilesLevel1)){
+				this.currentUpgrades.add(PlayerUpgrades.MissilesLevel1);
+			}
+		}
+		
+		
+		pb.value = this.HP;
+		
+		
+		
 		pb.setPosition(this.x + this.sprite.getWidth() / 2 - pb.sprite.getWidth() / 2,
 				this.y + pb.sprite.getHeight() + 2 + this.sprite.getHeight());
 		sprite.setSize(originalSpriteWidth + (score * 2 * originalSpriteWidth / 100),
@@ -105,17 +132,6 @@ public class Player extends Entity {
 					this.isFlipped = false;
 				}
 			}
-		}
-
-		if (currentUpgrades.contains(PlayerUpgrades.MissilesLevel3)) {
-
-			missileLevel = 3;
-		} else if (currentUpgrades.contains(PlayerUpgrades.MissilesLevel2)) {
-
-			missileLevel = 2;
-		} else if (currentUpgrades.contains(PlayerUpgrades.MissilesLevel1)) {
-
-			missileLevel = 1;
 		}
 
 		if (Gdx.input.isKeyJustPressed(Keys.J) && this.specialTimer + 10000 < System.currentTimeMillis()) {

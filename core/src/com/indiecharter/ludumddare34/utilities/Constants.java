@@ -6,4 +6,11 @@ public class Constants {
 	public static int scores;
 	
 	public static int totalScore;
+	
+	public static int playerDamage = 5;
+	
+	public static int memePointsNeeded  = 10;
+	
+	public static int memePoints;
+	
 }

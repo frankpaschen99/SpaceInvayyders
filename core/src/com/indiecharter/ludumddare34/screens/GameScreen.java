@@ -3,8 +3,8 @@ package com.indiecharter.ludumddare34.screens;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -39,6 +39,8 @@ public class GameScreen implements Screen {
 	Handler enemysBullets;
 	Handler enemies;
 
+	ProgressBar memeBar;
+
 	Sound andHisNameIsJohnCena;
 
 	Text text;
@@ -61,6 +63,10 @@ public class GameScreen implements Screen {
 		andHisNameIsJohnCena = Gdx.audio.newSound(Gdx.files.internal("andHisNameIsJohnCena.mp3"));
 
 		pb = new ProgressBar(false, 10, 2, 200, 200);
+		memeBar = new ProgressBar(true, Constants.memePointsNeeded, 0, 10,
+				Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 2);
+		memeBar.setColor(Color.PURPLE);
+		memeBar.setSize(30, 300);
 
 		heart = new Texture("asteroid.png");
 		batch = new SpriteBatch();
@@ -107,13 +113,13 @@ public class GameScreen implements Screen {
 		playerBullets.render(batch);
 		enemies.render(batch);
 		playerHandler.render(batch);
-		text.draw(centerOfScreenText + Constants.scores, batch,
-				300 - text.getStringLength(centerOfScreenText + Constants.totalScore) / 2, 700);
 
 		if (paused) {
 			backgroundOverlay.draw(batch);
 		}
-
+		text.draw(centerOfScreenText + Constants.scores, batch,
+				300 - text.getStringLength(centerOfScreenText + Constants.totalScore) / 2, 700);
+		memeBar.render(batch);
 		batch.end();
 	}
 
@@ -140,6 +146,7 @@ public class GameScreen implements Screen {
 				text.setColor(Color.RED);
 				text.setFontSize(0.44f);
 				this.centerOfScreenText = "You died, top Bitcoins: ";
+				this.paused = true;
 			}
 
 			if (firstDed + 436000 < System.currentTimeMillis()) {
@@ -187,23 +194,7 @@ public class GameScreen implements Screen {
 		}
 
 		if (player.shoot) {
-
-			Sprite bullet = new Sprite(new Texture("lazer.png"));
-			bullet.setSize(bullet.getWidth() / 2, bullet.getHeight() / 2);
-			if(player.missileLevel == 3){
-				
-				playerBullets.addEntity(new Bullet(player.x + 7 - (bullet.getWidth() / 2),
-						player.y + 27, 2, 600, bullet, true));
-				
-			}else if(player.missileLevel == 2){
-				
-			}else if(player.missileLevel == 1){
-				
-			}else if(player.missileLevel == 0){
-			playerBullets.addEntity(new Bullet(player.x + (player.sprite.getWidth() / 2) - (bullet.getWidth() / 2),
-					player.y + player.sprite.getHeight(), 2, 600, bullet, true));
-			}
-			player.shoot = false;
+			playerShoot();
 		}
 
 		for (Entity e : enemies.getEntities()) {
@@ -218,21 +209,113 @@ public class GameScreen implements Screen {
 				enemysBullets.addEntity(ayy);
 			}
 		}
+		
+		
+		if (Constants.memePoints >= Constants.memePointsNeeded) {
+			if (player.missileLevel < 3) {
+				player.missileLevel++;
+				Constants.memePoints = 0;
+				System.out.println(player.missileLevel);
+				Constants.memePointsNeeded *= 2;
+			} else {
+				if (player.specialTimer + 20000 < System.currentTimeMillis()) {
+					player.specialJohnCena = true;
+					Constants.memePoints = 0;
+					Constants.memePointsNeeded *= 6;
+					player.specialTimer = System.currentTimeMillis();
+				}
+			}
+
+		}
 
 		pb.update();
+		if (Constants.memePoints > Constants.memePointsNeeded)
+			Constants.memePoints = Constants.memePointsNeeded;
+		memeBar.value = Constants.memePoints;
+		memeBar.totalValue = Constants.memePointsNeeded;
+		memeBar.update();
 		playerBullets.update(delta);
 		PowerUpHandler.update(delta);
 		playerHandler.update(delta);
 		enemies.update(delta);
 		enemysBullets.update(delta);
-
 		enemysBullets.checkCollision(playerHandler);
 
 		playerBullets.checkCollision(enemies);
 
 	}
-	
-	long  lastSpawnTime = 0;
+
+	public void playerShoot() {
+		Texture texture = new Texture("lazer.png");
+		Sprite bullet = new Sprite(texture);
+		Sprite bullet1 = new Sprite(texture);
+		Sprite bullet2 = new Sprite(texture);
+		Sprite bullet3 = new Sprite(texture);
+		Sprite bullet4 = new Sprite(texture);
+		Sprite bullet5 = new Sprite(texture);
+		Sprite bullet6 = new Sprite(texture);
+
+		bullet.setSize(bullet.getWidth() / 2, bullet.getHeight() / 2);
+		bullet1.setSize(bullet.getWidth() / 2, bullet.getHeight() / 2);
+		bullet2.setSize(bullet.getWidth() / 2, bullet.getHeight() / 2);
+		bullet3.setSize(bullet.getWidth() / 2, bullet.getHeight() / 2);
+		bullet4.setSize(bullet.getWidth() / 2, bullet.getHeight() / 2);
+		bullet5.setSize(bullet.getWidth() / 2, bullet.getHeight() / 2);
+		bullet6.setSize(bullet.getWidth() / 2, bullet.getHeight() / 2);
+		if (player.missileLevel == 3) {
+			playerBullets.addEntity(new Bullet(player.x + (player.sprite.getWidth() / 2) - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight(), 2, 600, bullet, true));
+
+			// Outer cannons
+			playerBullets.addEntity(new Bullet(player.x + 7 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 27, Constants.playerDamage, 600, bullet1, true));
+			playerBullets.addEntity(new Bullet(player.x + 54 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 27, Constants.playerDamage, 600, bullet2, true));
+
+			// Middle Cannons
+			playerBullets.addEntity(new Bullet(player.x + 15 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 14, Constants.playerDamage, 600, bullet3, true));
+			playerBullets.addEntity(new Bullet(player.x + 46 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 14, Constants.playerDamage, 600, bullet4, true));
+
+			// Inner Cannons
+			playerBullets.addEntity(new Bullet(player.x + 23 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 1, Constants.playerDamage, 600, bullet5, true));
+			playerBullets.addEntity(new Bullet(player.x + 38 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 1, Constants.playerDamage, 600, bullet6, true));
+
+		} else if (player.missileLevel == 2) {
+			playerBullets.addEntity(new Bullet(player.x + (player.sprite.getWidth() / 2) - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight(), 2, 600, bullet, true));
+			// Middle Cannons
+			playerBullets.addEntity(new Bullet(player.x + 15 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 14, Constants.playerDamage, 600, bullet3, true));
+			playerBullets.addEntity(new Bullet(player.x + 46 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 14, Constants.playerDamage, 600, bullet4, true));
+
+			// Inner Cannons
+			playerBullets.addEntity(new Bullet(player.x + 23 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 1, Constants.playerDamage, 600, bullet5, true));
+			playerBullets.addEntity(new Bullet(player.x + 38 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 1, Constants.playerDamage, 600, bullet6, true));
+
+		} else if (player.missileLevel == 1) {
+			playerBullets.addEntity(new Bullet(player.x + (player.sprite.getWidth() / 2) - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight(), 2, 600, bullet, true));
+			// Inner Cannons
+			playerBullets.addEntity(new Bullet(player.x + 23 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 1, Constants.playerDamage, 600, bullet5, true));
+			playerBullets.addEntity(new Bullet(player.x + 38 - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight() - 1, Constants.playerDamage, 600, bullet6, true));
+
+		} else if (player.missileLevel == 0) {
+			playerBullets.addEntity(new Bullet(player.x + (player.sprite.getWidth() / 2) - (bullet.getWidth() / 2),
+					player.y + player.sprite.getHeight(), 2, 600, bullet, true));
+		}
+		player.shoot = false;
+	}
+
+	long lastSpawnTime = 0;
 
 	public void spawnEntities() {
 		if (lastTime + 1000 < System.currentTimeMillis()) {
@@ -244,29 +327,30 @@ public class GameScreen implements Screen {
 			System.out.println(Gdx.graphics.getFramesPerSecond());
 
 		}
-		
-		if(enemies.getEntities().size() == 0){
-			int ranI = random.nextInt(1) + 1 + Constants.totalScore/5;
-			for(int i = 0; i < ranI; i++){
-			Sprite sprite;
-			
-			if(Constants.totalScore > 10){
-				if (random.nextInt(2) == 1) {
-					sprite = new Sprite(new Texture("ayylmao.png"));
+
+		if (enemies.getEntities().size() == 0) {
+			int ranI = random.nextInt(1) + 1 + Constants.totalScore / 5;
+			for (int i = 0; i < ranI; i++) {
+				Sprite sprite;
+
+				if (Constants.totalScore > 5) {
+					if (random.nextInt(2) == 1) {
+						sprite = new Sprite(new Texture("ayylmao.png"));
+					} else {
+						sprite = new Sprite(new Texture("UFO.png"));
+					}
 				} else {
-					sprite = new Sprite(new Texture("UFO.png"));
+					sprite = new Sprite(new Texture("ayylmao.png"));
 				}
-			}else{
-				sprite = new Sprite(new Texture("ayylmao.png"));
+				int x = random.nextInt(30 + Constants.totalScore);
+				int y = random.nextInt(30 + Constants.totalScore);
+				sprite.setColor(random.nextFloat(), random.nextFloat(), random.nextFloat(), 1);
+				sprite.setSize(32 + x, 32 + y);
+
+				enemies.addEntity(new Enemy((float) (random.nextInt(10) + Constants.totalScore + ((x + y) / 8)),
+						random.nextInt(400) + 100, random.nextInt(500) + 200, sprite));
 			}
-			
-			sprite.setColor(random.nextFloat(), random.nextFloat(), random.nextFloat(), 1);
-			sprite.setSize(32 + random.nextInt(62), 32 + random.nextInt(62));
-			
-			enemies.addEntity(new Enemy((float) (random.nextInt(10) + Constants.totalScore), random.nextInt(400) + 100,
-					random.nextInt(500) + 200, sprite));
-			}
-			
+
 		}
 	}
 

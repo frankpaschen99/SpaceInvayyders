@@ -41,7 +41,7 @@ public class Enemy extends Entity{
 	@Override
 	public void update(float delta) {
 		
-		if(random.nextInt(500) <= Constants.scores){
+		if(random.nextInt(400) <= Constants.scores / 10 + 1){
 			shoot = true;
 		}
 		
@@ -69,6 +69,7 @@ public class Enemy extends Entity{
 			Constants.scores++;
 			Constants.totalScore++;
 			this.isTrash = true;
+			Constants.memePoints += random.nextInt(9);
 		}
 	}
 
